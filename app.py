@@ -1,8 +1,10 @@
-print("Enter name")
-N = input()
+inputs = [1.2, 5.1, 2.1]
+weights = [3.1, 2.1, 8.7]
+bias = 3
 
-print("Enter Age")
-A = input()
 
-print("Name: ", N)
-print("Age: ", A)
+
+
+
+output = inputs[0]*weights[0] + inputs[1]*weights[1] + inputs[2]*weights[2] + bias
+print(output)
