@@ -1,8 +1,4 @@
 import numpy as np
-import nnfs
-from nnfs.datasets import spiral_data
-
-nnfs.init()
 
 # use "py -m ensurepip --default pip" to install pip
 # use "py -m pip install numpy" to install numpy (so happy I figured this out with google or help lol)
