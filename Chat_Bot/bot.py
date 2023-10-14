@@ -31,7 +31,7 @@ chat_history = []
 # prompt template string
 prompt_template = """Below is an instruction that describes a task. Write a response that appropriately completes the request. 
 
-### Instruction: You are an ai chatbot named chatty. You are in a conversation between you and a friendly human. Continue the conversation.
+### Instruction: You are an ai chatbot named Omega-chan. You are in a conversation between you and a friendly human. Continue the conversation.
 
 {history}
 
@@ -46,7 +46,7 @@ while True:
 
     # generate output
     prompt = prompt_template.format(history="\n".join(chat_history))
-    out = "chatty: " + pipe(user_message)[0]["generated_text"]
+    out = "Omega-chan: " + pipe(user_message)[0]["generated_text"]
 
     # store output & print it
     chat_history.append(out)
