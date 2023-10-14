@@ -1,23 +1,42 @@
-import numpy as np
+from espnet2.bin.tts_inference import Text2Speech
+from espnet2.utils.types import str_or_none
+from IPython.display import display, Audio
+import time
 import torch
+import soundfile as sf
 
+tag = 'kan-bayashi/ljspeech_tacotron2'
+vocoder_tag = "parallel_wavegan/ljspeech_hifigan.v1"
 
-tacotron2 = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_tacotron2', model_math='fp16')
-tacotron2 = tacotron2.to('cuda')
-tacotron2.eval()
+text2speech = Text2Speech.from_pretrained(
+    model_tag=str_or_none(tag),
+    vocoder_tag=str_or_none(vocoder_tag),
+    device="cuda",
+    # Only for Tacotron 2 & Transformer
+    threshold=0.5,
+    # Only for Tacotron 2
+    minlenratio=0.0,
+    maxlenratio=10.0,
+    use_att_constraint=False,
+    backward_window=1,
+    forward_window=3,
+    # Only for FastSpeech & FastSpeech2 & VITS
+    #speed_control_alpha=1.0,
+    # Only for VITS
+    #noise_scale=0.333,
+    #noise_scale_dur=0.333,
+)
 
-waveglow = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_waveglow', model_math='fp16')
-waveglow = waveglow.remove_weightnorm(waveglow)
-waveglow = waveglow.to('cuda')
-waveglow.eval()
+# prompt for input
+print(f"Input: ")
+x = input()
 
-text = "Hello world, I missed you so much."
-
-utils = torch.hub.load('NVIDIA/DeepLearningExamples:torchhub', 'nvidia_tts_utils')
-sequences, lengths = utils.prepare_input_sequence([text])
-
+# synthesis
 with torch.no_grad():
-    mel, _, _ = tacotron2.infer(sequences, lengths)
-    audio = waveglow.infer(mel)
-audio_numpy = audio[0].data.cpu().numpy()
-rate = 22050
+    start = time.time()
+    wav = text2speech(x)["wav"]
+elapsed = (time.time() - start)
+print(f"elapsed = {elapsed:5f}")
+
+# save it!
+sf.write("out.wav", wav.view(-1).cpu().numpy(), text2speech.fs, "PCM_16")
