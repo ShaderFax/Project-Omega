@@ -36,7 +36,7 @@ prompt_template = """Below is an instruction that describes a task. Write a resp
 {history}
 
 ### Response:
-chatty:
+Omega:
 """
 
 while True:
