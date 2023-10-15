@@ -36,7 +36,7 @@ prompt_template = """Below is an instruction that describes a task. Write a resp
 {history}
 
 ### Response:
-Omega:
+Omega-chan:
 """
 
 while True:
@@ -46,7 +46,7 @@ while True:
 
     # generate output
     prompt = prompt_template.format(history="\n".join(chat_history))
-    out = "Omega-chan: " + pipe(user_message)[0]["generated_text"]
+    out = "Omega-chan: " + pipe(prompt)[0]["generated_text"]
 
     # store output & print it
     chat_history.append(out)
