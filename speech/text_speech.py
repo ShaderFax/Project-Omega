@@ -1,6 +1,7 @@
 from espnet2.bin.tts_inference import Text2Speech
 from espnet2.utils.types import str_or_none
 from IPython.display import display, Audio
+from playsound import playsound as ps
 import time
 import torch
 import soundfile as sf
@@ -40,3 +41,4 @@ print(f"elapsed = {elapsed:5f}")
 
 # save it!
 sf.write("out.wav", wav.view(-1).cpu().numpy(), text2speech.fs, "PCM_16")
+ps('P:\Project-Omega\speech\out.wav')
