@@ -1,13 +1,15 @@
 import openai as oai
 import sys
-sys.path.insert(0, 'p/Project-Omega/speech/ytchat.py')
 from ytchat import chatMsg
 
 oai.api_key = "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"
 
 messages = []
-system_msg = input("Input: \n")
+system_msg = input("Input: Describe the character you want to me to play\n")
 messages.append({"role": "system", "content": system_msg})
+
+def history():
+    print("this line is a place holder")
 
 def chatReply():
     while input != "quit()":
@@ -19,4 +21,4 @@ def chatReply():
         )
         reply = response["choices"][0]["message"]["content"]
         messages.append({"role": "system", "content": reply})
-        print(reply)
+        print("\n"+reply+"\n")
