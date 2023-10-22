@@ -8,5 +8,3 @@ def chatMsg():
     while chat.is_alive():
         for c in chat.get().sync_items():
             print(f"[{c.author.name}]{c.message}")
-            
-chatMsg()
