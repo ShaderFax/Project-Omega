@@ -5,7 +5,7 @@ from playsound import playsound as ps
 import time
 import torch
 import soundfile as sf
-from bot import chatBot
+from bot import response
 
 tag = 'kan-bayashi/ljspeech_tacotron2'
 vocoder_tag = "parallel_wavegan/ljspeech_hifigan.v1"
@@ -30,7 +30,7 @@ text2speech = Text2Speech.from_pretrained(
 )
 
 # input from OpenAI bot
-x = chatBot
+x = response
 
 # synthesis
 with torch.no_grad():
