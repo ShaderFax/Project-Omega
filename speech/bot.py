@@ -11,12 +11,11 @@ messages.append({"role": "system", "content": system_msg})
 
 def chatBot():
     while input != "quit()":
-        message = messages
+        message = input()
         messages.append({"role": "system", "content": message})
         response = oai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=messages
-        )
+            messages=messages)
         reply = response["choices"][0]["message"]["content"]
-        print("\n"+reply+"\n")
         messages.append({"role": "system", "content": reply})
+        print("\n"+reply+"\n")
