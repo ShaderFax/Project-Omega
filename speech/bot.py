@@ -8,10 +8,10 @@ system_msg = input("Info to input: \n")
 messages.append({"role": "system", "content": system_msg})
 
 chat = ytc.create(video_id="XxVZYEffgpQ")
-count = 0
+i = 0
 while chat.is_alive():
     for c in chat.get().sync_items():
-        if count % 5 == 0:
+        if i % 5==0:
             print(f"[{c.author.name}]{c.message}\n")
             msg = c.message
             messages.append({"role": "user", "content": msg})
@@ -21,8 +21,9 @@ while chat.is_alive():
             reply = response["choices"][0]["message"]["content"]
             messages.append({"role": "assistant", "content": reply})
             print("\n"+reply+"\n")
-            count += 1
-        else:  
+            i += 1
+        else:
+            i += 1
             continue
 
 # You are an AI vtuber named Omega-chan
