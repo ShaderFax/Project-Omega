@@ -29,13 +29,10 @@ text2speech = Text2Speech.from_pretrained(
     #noise_scale_dur=0.333,
 )
 
-# input from OpenAI bot
-x = reply
-
 # synthesis
 with torch.no_grad():
     start = time.time()
-    wav = text2speech(x)["wav"]
+    wav = text2speech(reply)["wav"]
 elapsed = (time.time() - start)
 print(f"elapsed = {elapsed:5f}")
 
