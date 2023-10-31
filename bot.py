@@ -2,12 +2,16 @@ from espnet2.bin.tts_inference import Text2Speech
 from espnet2.utils.types import str_or_none
 from IPython.display import display, Audio
 from playsound import playsound as ps
+import logging
+import os
+import uuid
 import time
 import torch
 import soundfile as sf
 import openai as oai
 import pytchat as ytc
 
+# logging.basicConfig(level=logging.DEBUG)
 oai.api_key = "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"
 
 messages = []
@@ -18,13 +22,14 @@ chat = ytc.create(video_id="XxVZYEffgpQ")
 i = 0
 while chat.is_alive():
     for c in chat.get().sync_items():
-        if i % 5==0:
+        if i % 3==0:
             print(f"[{c.author.name}]{c.message}\n")
             msg = c.message
             messages.append({"role": "user", "content": msg})
             response = oai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=messages)
+                messages=messages,
+                tempurature=0.5)
             reply = response["choices"][0]["message"]["content"]
             messages.append({"role": "assistant", "content": reply})
             print("\n"+reply+"\n")
@@ -58,9 +63,18 @@ while chat.is_alive():
             elapsed = (time.time() - start)
             print(f"elapsed = {elapsed:5f}")
 
+            print("generated audio\n")
+
             # save it!
-            sf.write("out.wav", wav.view(-1).cpu().numpy(), text2speech.fs, "PCM_16")
-            ps('w:\Project-Omega\out.wav')
+            filename=str(uuid.uuid4())
+            sf.write(f"{filename}.wav", wav.view(-1).cpu().numpy(), text2speech.fs, "PCM_16")
+            ps(f"{filename}.wav")
+
+            print("Sound played\n")
+            
+            os.remove(f"{filename}.wav")
+            print("removed\n")
+
             i += 1
         else:
             i += 1
