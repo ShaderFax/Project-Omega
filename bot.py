@@ -2,7 +2,6 @@ from espnet2.bin.tts_inference import Text2Speech
 from espnet2.utils.types import str_or_none
 from IPython.display import display, Audio
 from playsound import playsound as ps
-import logging
 import os
 import uuid
 import time
@@ -11,14 +10,13 @@ import soundfile as sf
 import openai as oai
 import pytchat as ytc
 
-# logging.basicConfig(level=logging.DEBUG)
-oai.api_key = "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"
+oai.api_key = "open ai key here"
 
 messages = []
 system_msg = input("Info to input: \n")
 messages.append({"role": "system", "content": system_msg})
 
-chat = ytc.create(video_id="XxVZYEffgpQ")
+chat = ytc.create(video_id="youtube link here")
 i = 0
 while chat.is_alive():
     for c in chat.get().sync_items():
@@ -28,8 +26,7 @@ while chat.is_alive():
             messages.append({"role": "user", "content": msg})
             response = oai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=messages,
-                tempurature=0.5)
+                messages=messages)
             reply = response["choices"][0]["message"]["content"]
             messages.append({"role": "assistant", "content": reply})
             print("\n"+reply+"\n")
@@ -80,4 +77,4 @@ while chat.is_alive():
             i += 1
             continue
 
-# You are an AI vtuber named Omega-chan
+# You are an AI vtuber named Omega-chan who is enthusiastic and happy
